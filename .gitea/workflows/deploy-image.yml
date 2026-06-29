@@ -18,30 +18,27 @@ jobs:
       - name: Compute image name and tag
         id: meta
         run: |
-          REGISTRY=$(echo "${{ gitea.server_url }}" | sed 's|https\?://||')
-          OWNER=$(echo "${{ gitea.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          ACTOR=$(echo "${{ gitea.actor }}" | tr '[:upper:]' '[:lower:]')
+          REGISTRY=$(echo "${{ github.server_url }}" | sed 's|https\?://||')
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          ACTOR=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
           IMAGE_NAME="javadocviewerservice"
           FULL_IMAGE="${REGISTRY}/${OWNER}/${IMAGE_NAME}"
 
-          REF="${{ gitea.ref_name }}"
+          REF="${{ github.ref_name }}"
           if [ "${REF}" = "main" ]; then
             TAG="latest"
           else
             TAG=$(echo "${REF}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9._-]/-/g')
           fi
 
+          echo "Registry:  ${REGISTRY}"
+          echo "Actor:     ${ACTOR}"
+          echo "Image:     ${FULL_IMAGE}:${TAG}"
+
           echo "registry=${REGISTRY}" >> "$GITHUB_OUTPUT"
           echo "actor=${ACTOR}" >> "$GITHUB_OUTPUT"
           echo "image=${FULL_IMAGE}" >> "$GITHUB_OUTPUT"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
-          echo "Image: ${FULL_IMAGE}:${TAG}"
-
-      - name: Debug login values
-        run: |
-          echo "Registry: ${{ steps.meta.outputs.registry }}"
-          echo "Actor: ${{ steps.meta.outputs.actor }}"
-          echo "Token set: ${{ secrets.GITEA_TOKEN != '' }}"
 
       - name: Log in to Gitea Container Registry
         uses: docker/login-action@v3

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(java -version)",
       "WebFetch(domain:github.com)",
-      "Bash(find /Users/thilo/development/java/JavadocViewerService -not -path */target/* -not -path */.mvn/* -not -path */.maven/* -not -path */.git/* -type f -o -type d)"
+      "Bash(find /Users/thilo/development/java/JavadocViewerService -not -path */target/* -not -path */.mvn/* -not -path */.maven/* -not -path */.git/* -type f -o -type d)",
+      "WebFetch(domain:docs.gitea.com)"
     ]
   }
 }
