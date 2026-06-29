@@ -87,7 +87,8 @@ public class JavadocService {
         "--no-transfer-progress",
         "-Dlombok.delombok.skip=true",
         "-Dcheckstyle.skip=true",
-        "-Djacoco.skip=true"
+        "-Djacoco.skip=true",
+        "-DskipTests"
     );
     pb.directory(repoDir);
     pb.redirectErrorStream(true);
