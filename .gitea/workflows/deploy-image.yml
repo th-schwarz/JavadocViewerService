@@ -51,7 +51,7 @@ jobs:
           TOKEN: ${{ secrets.REGISTRY_TOKEN }}
 
       - name: Log in to Gitea Container Registry
-        run: echo "${{ secrets.GITEA_TOKEN }}" | docker login "${{ steps.meta.outputs.registry }}" -u "${{ steps.meta.outputs.actor }}" --password-stdin
+        run: echo "${{ secrets.TOKEN }}" | docker login "git.mein-gateway.de" -u "thischwa" --password-stdin
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
