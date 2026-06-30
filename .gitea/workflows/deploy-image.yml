@@ -41,8 +41,8 @@ jobs:
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
       - name: Debug Secret
-        run:
-          echo "Secret length: ${#TOKEN}"
+        run: |
+         echo "Secret length: ${#TOKEN}"
         env:
           TOKEN: ${{ secrets.REGISTRY_TOKEN }}
 
