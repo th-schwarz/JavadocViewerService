@@ -51,11 +51,15 @@ jobs:
           TOKEN: ${{ secrets.REGISTRY_TOKEN }}
 
       - name: Log in to Gitea Container Registry
-        run: echo "${{ secrets.TOKEN }}" | docker login "git.mein-gateway.de" -u "thischwa" --password-stdin
+        uses: docker/login-action@v3
+        with:
+          registry: git.mein-gateway.de
+          username: thischwa
+          password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.tag }}
+          tags: git.mein-gateway.de/thischwa/javadocviewerservice:develop
