@@ -40,6 +40,12 @@ jobs:
           echo "image=${FULL_IMAGE}" >> "$GITHUB_OUTPUT"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
+      - name: Debug Secret
+        run:
+          echo "Secret length: ${#TOKEN}"
+        env:
+          TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+
       - name: Log in to Gitea Container Registry
         run: echo "${{ secrets.GITEA_TOKEN }}" | docker login "${{ steps.meta.outputs.registry }}" -u "${{ steps.meta.outputs.actor }}" --password-stdin
 
