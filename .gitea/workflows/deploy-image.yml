@@ -40,6 +40,10 @@ jobs:
           echo "image=${FULL_IMAGE}" >> "$GITHUB_OUTPUT"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
+      - name: Network Debug
+        run: |
+          curl -v https://git.mein-gateway.de/v2/    
+
       - name: Debug Secret
         run: |
          echo "Secret length: ${#TOKEN}"
