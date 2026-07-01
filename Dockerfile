@@ -22,7 +22,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y tini && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user
-RUN useradd -m jvsuser
+RUN useradd -m -u 1000 jvsuser
 USER jvsuser
 
 # Copy the built jar from the builder stage
