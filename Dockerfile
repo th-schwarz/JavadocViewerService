@@ -18,8 +18,8 @@ FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
-# Optional: add tini to manage signals properly
-RUN apt-get update && apt-get install -y tini && rm -rf /var/lib/apt/lists/*
+# Install tini and Maven
+RUN apt-get update && apt-get install -y tini maven && rm -rf /var/lib/apt/lists/*
 
 # Copy the built jar from the builder stage
 COPY --from=builder /build/target/*.jar /app/jvs.jar
