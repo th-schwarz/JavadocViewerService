@@ -13,3 +13,4 @@ jvs:
   config-path: ./jvs.yml
   base-dir: ./javadoc-storage
   cron: 0 0/15 * * * ?
+  run-on-start: false

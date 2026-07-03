@@ -1,5 +1,6 @@
 package codes.thischwa.jvs.service;
 
+import codes.thischwa.jvs.config.JvsConfig;
 import codes.thischwa.jvs.model.GitRepository;
 import codes.thischwa.jvs.repository.GitRepositoryRepository;
 import java.io.File;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +21,15 @@ public class UpdateScheduler {
   private final GitRepositoryRepository repository;
   private final GitService gitService;
   private final JavadocService javadocService;
+  private final JvsConfig jvsConfig;
 
+  @EventListener(ApplicationReadyEvent.class)
+  public void onApplicationReady() {
+    if (jvsConfig.isRunOnStart()) {
+      log.info("'jvs.run-on-start' is enabled – running initial update.");
+      updateAll();
+    }
+  }
 
   @Scheduled(cron = "${jvs.cron}")
   public void updateAll() {

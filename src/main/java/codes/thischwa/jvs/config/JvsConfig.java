@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class JvsConfig {
   private String configPath;
   private String baseDir;
+  private boolean runOnStart;
   private List<RepoConfig> repositories;
 
   @Data
