@@ -1,5 +1,5 @@
 # Stage 1: Build the JAR using Maven
-FROM maven:3.9-eclipse-temurin-17 AS builder
+FROM maven:3.9-eclipse-temurin-21 AS builder
 
 LABEL org.opencontainers.image.description="JavadocViewerService serves and manages Javadoc documentation from Git repositories."
 
@@ -14,7 +14,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Minimal runtime image
-FROM eclipse-temurin:17-jdk-jammy
+FROM eclipse-temurin:21-jdk-jammy
 
 WORKDIR /app
 
