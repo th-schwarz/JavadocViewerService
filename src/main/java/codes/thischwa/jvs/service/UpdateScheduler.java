@@ -19,7 +19,8 @@ public class UpdateScheduler {
   private final GitService gitService;
   private final JavadocService javadocService;
 
-  @Scheduled(fixedRateString = "${jvs.update-interval:PT1H}")
+
+  @Scheduled(cron = "${jvs.cron}")
   public void updateAll() {
     log.info("Starting scheduled update of repositories...");
     List<GitRepository> repos = repository.findAll();

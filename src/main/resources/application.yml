@@ -8,10 +8,8 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 jvs:
   config-path: ./jvs.yml
   base-dir: ./javadoc-storage
-  update-interval: PT1H
+  cron: 0 0/15 * * * ?

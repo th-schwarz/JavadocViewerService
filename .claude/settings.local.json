@@ -4,7 +4,11 @@
       "Bash(java -version)",
       "WebFetch(domain:github.com)",
       "Bash(find /Users/thilo/development/java/JavadocViewerService -not -path */target/* -not -path */.mvn/* -not -path */.maven/* -not -path */.git/* -type f -o -type d)",
-      "WebFetch(domain:docs.gitea.com)"
+      "WebFetch(domain:docs.gitea.com)",
+      "Bash(rm -f /Users/thilo/development/java/JavadocViewerService/database/jvsdb.mv.db /Users/thilo/development/java/JavadocViewerService/database/jvsdb.trace.db)",
+      "Bash(mvn spring-boot:run)",
+      "Bash(mvn spring-boot:run -Dspring-boot.run.jvmArguments=\"-Ddebug=true\")",
+      "Bash(jar tf:*)"
     ]
   }
 }
