@@ -1,8 +1,8 @@
 package codes.thischwa.jdvs.service;
 
 import codes.thischwa.jdvs.config.JdvsConfig;
+import codes.thischwa.jdvs.jpa.GitRepositoryRepository;
 import codes.thischwa.jdvs.model.GitRepository;
-import codes.thischwa.jdvs.repository.GitRepositoryRepository;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

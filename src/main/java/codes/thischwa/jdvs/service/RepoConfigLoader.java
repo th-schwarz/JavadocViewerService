@@ -1,9 +1,8 @@
 package codes.thischwa.jdvs.service;
 
 import codes.thischwa.jdvs.config.JdvsConfig;
+import codes.thischwa.jdvs.jpa.GitRepositoryRepository;
 import codes.thischwa.jdvs.model.GitRepository;
-import codes.thischwa.jdvs.repository.GitRepositoryRepository;
-import java.io.File;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

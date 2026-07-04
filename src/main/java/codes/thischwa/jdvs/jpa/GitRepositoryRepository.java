@@ -1,4 +1,4 @@
-package codes.thischwa.jdvs.repository;
+package codes.thischwa.jdvs.jpa;
 
 import codes.thischwa.jdvs.model.GitRepository;
 import java.util.Optional;

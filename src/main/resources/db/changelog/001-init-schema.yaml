@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 1
-      author: junie
+      author: th-schwarz
       changes:
         - createTable:
             tableName: git_repository

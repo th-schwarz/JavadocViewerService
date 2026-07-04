@@ -18,6 +18,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class JavadocService {
   private final JdvsConfig jdvsConfig;
+  // Possible standard paths for Javadoc
+  private final String[] possiblePaths = {
+      "target/reports/apidocs",
+      "target/site/apidocs",
+      "target/apidocs"
+  };
 
   public boolean generateJavadoc(String projectName, File repoDir) {
     File outputDir = Path.of(jdvsConfig.getBaseDir(), "javadoc", projectName).toFile();
@@ -39,13 +45,6 @@ public class JavadocService {
   }
 
   private void copyGeneratedJavadoc(File repoDir, File targetDir) {
-    // Possible standard paths for Javadoc
-    String[] possiblePaths = {
-        "target/reports/apidocs",
-        "target/site/apidocs",
-        "target/apidocs"
-    };
-
     for (String relPath : possiblePaths) {
       File sourceDir = new File(repoDir, relPath);
       if (sourceDir.exists() && sourceDir.isDirectory()) {
