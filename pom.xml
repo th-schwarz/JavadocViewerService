@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>codes.thischwa</groupId>
-    <artifactId>jvc</artifactId>
+    <artifactId>jdvc</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
     <name>JavadocViewerService</name>

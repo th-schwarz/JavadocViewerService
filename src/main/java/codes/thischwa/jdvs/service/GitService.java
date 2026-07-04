@@ -1,6 +1,6 @@
 package codes.thischwa.jdvs.service;
 
-import codes.thischwa.jdvs.config.JvsConfig;
+import codes.thischwa.jdvs.config.JdvsConfig;
 import codes.thischwa.jdvs.model.GitRepository;
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +20,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class GitService {
-  private final JvsConfig jvsConfig;
+  private final JdvsConfig jdvsConfig;
 
   public Optional<String> updateAndCheckoutLatestTag(GitRepository repoEntity) {
-    Path repoPath = Path.of(jvsConfig.getBaseDir(), "repos", repoEntity.getName());
+    Path repoPath = Path.of(jdvsConfig.getBaseDir(), "repos", repoEntity.getName());
     try {
       Git git;
       if (Files.exists(repoPath)) {
@@ -58,6 +58,6 @@ public class GitService {
   }
 
   public File getRepoDirectory(String name) {
-    return Path.of(jvsConfig.getBaseDir(), "repos", name).toFile();
+    return Path.of(jdvsConfig.getBaseDir(), "repos", name).toFile();
   }
 }

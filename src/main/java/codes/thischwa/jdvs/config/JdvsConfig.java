@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "jdvs")
 @Data
-public class JvsConfig {
-  private String configPath;
+public class JdvsConfig {
   private String baseDir;
+  private boolean cleanOnStart;
   private boolean runOnStart;
   private List<RepoConfig> repositories;
 

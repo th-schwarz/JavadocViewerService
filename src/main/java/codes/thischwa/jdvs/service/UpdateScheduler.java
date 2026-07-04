@@ -1,10 +1,14 @@
 package codes.thischwa.jdvs.service;
 
-import codes.thischwa.jdvs.config.JvsConfig;
+import codes.thischwa.jdvs.config.JdvsConfig;
 import codes.thischwa.jdvs.model.GitRepository;
 import codes.thischwa.jdvs.repository.GitRepositoryRepository;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +25,33 @@ public class UpdateScheduler {
   private final GitRepositoryRepository repository;
   private final GitService gitService;
   private final JavadocService javadocService;
-  private final JvsConfig jvsConfig;
+  private final JdvsConfig jdvsConfig;
+  private final RepoConfigLoader repoConfigLoader;
 
   @EventListener(ApplicationReadyEvent.class)
   public void onApplicationReady() {
-    if (jvsConfig.isRunOnStart()) {
+    if (jdvsConfig.isCleanOnStart()) {
+      log.info("'jdvs.clean-on-start' is enabled – cleaning base directory and database.");
+      cleanBaseDir();
+      repository.deleteAll();
+    }
+    repoConfigLoader.loadConfig();
+    if (jdvsConfig.isRunOnStart()) {
       log.info("'jdvs.run-on-start' is enabled – running initial update.");
       updateAll();
+    }
+  }
+
+  private void cleanBaseDir() {
+    Path baseDir = Path.of(jdvsConfig.getBaseDir());
+    if (!Files.exists(baseDir)) {
+      return;
+    }
+    try (var stream = Files.walk(baseDir)) {
+      stream.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+      log.info("Deleted base directory: {}", baseDir);
+    } catch (IOException e) {
+      log.error("Failed to delete base directory: {}", baseDir, e);
     }
   }
 

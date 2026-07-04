@@ -1,4 +1,14 @@
+jdvs:
+  base-dir: ./javadoc-storage
+  cron: 0 0/15 * * * ?
+  clean-on-start: false
+  run-on-start: false
+
+## import of the individual configuration settings
 spring:
+  config:
+    import: optional:file:./jdvs.yml
+
   datasource:
     url: jdbc:h2:file:./database/jdvsdb
     driverClassName: org.h2.Driver
@@ -8,9 +18,3 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
-
-jdvs:
-  config-path: ./jdvs.yml
-  base-dir: ./javadoc-storage
-  cron: 0 0/15 * * * ?
-  run-on-start: false

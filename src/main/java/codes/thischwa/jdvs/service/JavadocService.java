@@ -1,6 +1,6 @@
 package codes.thischwa.jdvs.service;
 
-import codes.thischwa.jdvs.config.JvsConfig;
+import codes.thischwa.jdvs.config.JdvsConfig;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class JavadocService {
-  private final JvsConfig jvsConfig;
+  private final JdvsConfig jdvsConfig;
 
   public boolean generateJavadoc(String projectName, File repoDir) {
-    File outputDir = Path.of(jvsConfig.getBaseDir(), "javadoc", projectName).toFile();
+    File outputDir = Path.of(jdvsConfig.getBaseDir(), "javadoc", projectName).toFile();
     if (!outputDir.exists()) {
       outputDir.mkdirs();
     }
