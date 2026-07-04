@@ -6,6 +6,6 @@
 /\__/ / (_| \ \_/ /\__/ /
 \____/ \__,_|\___/\____/
 
-$[application.title] ${application.version}
+Version: ${application.version}
 :: Spring Boot${spring-boot.formatted-version} ::
 running on java ${java.version}
