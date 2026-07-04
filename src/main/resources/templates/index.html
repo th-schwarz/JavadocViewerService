@@ -6,26 +6,26 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Projekt Javadoc Übersicht</h1>
+    <h1>Project Javadoc Overview</h1>
     <table class="table table-striped">
         <thead>
         <tr>
             <th>Name</th>
             <th>Git URL</th>
-            <th>Letzter Tag</th>
-            <th>Letztes Update</th>
-            <th>Aktion</th>
+            <th>Latest Tag</th>
+            <th>Last Update</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="repo : ${repos}">
-            <td th:text="${repo.name}">Projekt</td>
+            <td th:text="${repo.name}">Project</td>
             <td th:text="${repo.url}">URL</td>
             <td th:text="${repo.lastTag}">v1.0</td>
             <td th:text="${#temporals.format(repo.updated, 'dd.MM.yyyy HH:mm')}">-</td>
             <td>
-                <a th:if="${repo.lastTag != null}" th:href="@{/{name}/index.html(name=${repo.name})}" class="btn btn-primary btn-sm">Javadoc öffnen</a>
-                <span th:if="${repo.lastTag == null}" class="badge bg-secondary">Noch nicht generiert</span>
+                <a th:if="${repo.lastTag != null}" th:href="@{/{name}/index.html(name=${repo.name})}" class="btn btn-primary btn-sm">Open Javadoc</a>
+                <span th:if="${repo.lastTag == null}" class="badge bg-secondary">Not yet generated</span>
             </td>
         </tr>
         </tbody>
