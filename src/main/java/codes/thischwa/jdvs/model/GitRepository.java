@@ -1,4 +1,4 @@
-package codes.thischwa.jvs.model;
+package codes.thischwa.jdvs.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

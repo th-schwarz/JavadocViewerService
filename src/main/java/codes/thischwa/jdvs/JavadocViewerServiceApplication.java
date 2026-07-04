@@ -1,4 +1,4 @@
-package codes.thischwa.jvs;
+package codes.thischwa.jdvs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

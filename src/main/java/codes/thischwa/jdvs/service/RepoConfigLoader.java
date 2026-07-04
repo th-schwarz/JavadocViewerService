@@ -1,8 +1,8 @@
-package codes.thischwa.jvs.service;
+package codes.thischwa.jdvs.service;
 
-import codes.thischwa.jvs.config.JvsConfig;
-import codes.thischwa.jvs.model.GitRepository;
-import codes.thischwa.jvs.repository.GitRepositoryRepository;
+import codes.thischwa.jdvs.config.JvsConfig;
+import codes.thischwa.jdvs.model.GitRepository;
+import codes.thischwa.jdvs.repository.GitRepositoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import jakarta.annotation.PostConstruct;

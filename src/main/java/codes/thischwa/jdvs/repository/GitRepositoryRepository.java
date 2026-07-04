@@ -1,6 +1,6 @@
-package codes.thischwa.jvs.repository;
+package codes.thischwa.jdvs.repository;
 
-import codes.thischwa.jvs.model.GitRepository;
+import codes.thischwa.jdvs.model.GitRepository;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

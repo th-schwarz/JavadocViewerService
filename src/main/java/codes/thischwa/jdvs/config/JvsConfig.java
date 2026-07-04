@@ -1,4 +1,4 @@
-package codes.thischwa.jvs.config;
+package codes.thischwa.jdvs.config;
 
 import java.util.List;
 import lombok.Data;
@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "jvs")
+@ConfigurationProperties(prefix = "jdvs")
 @Data
 public class JvsConfig {
   private String configPath;

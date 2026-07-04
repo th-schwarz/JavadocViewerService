@@ -1,6 +1,6 @@
-package codes.thischwa.jvs.service;
+package codes.thischwa.jdvs.service;
 
-import codes.thischwa.jvs.config.JvsConfig;
+import codes.thischwa.jdvs.config.JvsConfig;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;

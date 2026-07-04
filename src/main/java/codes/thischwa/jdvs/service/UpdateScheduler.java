@@ -1,8 +1,8 @@
-package codes.thischwa.jvs.service;
+package codes.thischwa.jdvs.service;
 
-import codes.thischwa.jvs.config.JvsConfig;
-import codes.thischwa.jvs.model.GitRepository;
-import codes.thischwa.jvs.repository.GitRepositoryRepository;
+import codes.thischwa.jdvs.config.JvsConfig;
+import codes.thischwa.jdvs.model.GitRepository;
+import codes.thischwa.jdvs.repository.GitRepositoryRepository;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,12 +26,12 @@ public class UpdateScheduler {
   @EventListener(ApplicationReadyEvent.class)
   public void onApplicationReady() {
     if (jvsConfig.isRunOnStart()) {
-      log.info("'jvs.run-on-start' is enabled – running initial update.");
+      log.info("'jdvs.run-on-start' is enabled – running initial update.");
       updateAll();
     }
   }
 
-  @Scheduled(cron = "${jvs.cron}")
+  @Scheduled(cron = "${jdvs.cron}")
   public void updateAll() {
     log.info("Starting scheduled update of repositories...");
     List<GitRepository> repos = repository.findAll();

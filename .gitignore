@@ -38,4 +38,4 @@ build/
 ## local ##
 /database/
 /javadoc-storage/
-/jvs.yml
+/jdvs.yml

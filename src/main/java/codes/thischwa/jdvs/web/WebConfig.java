@@ -1,6 +1,6 @@
-package codes.thischwa.jvs.web;
+package codes.thischwa.jdvs.web;
 
-import codes.thischwa.jvs.config.JvsConfig;
+import codes.thischwa.jdvs.config.JvsConfig;
 import java.nio.file.Path;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

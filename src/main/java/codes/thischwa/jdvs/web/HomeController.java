@@ -1,6 +1,6 @@
-package codes.thischwa.jvs.web;
+package codes.thischwa.jdvs.web;
 
-import codes.thischwa.jvs.repository.GitRepositoryRepository;
+import codes.thischwa.jdvs.repository.GitRepositoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

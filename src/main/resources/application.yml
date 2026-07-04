@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:file:./database/jvsdb
+    url: jdbc:h2:file:./database/jdvsdb
     driverClassName: org.h2.Driver
     username: sa
     password: ""
@@ -9,8 +9,8 @@ spring:
     hibernate:
       ddl-auto: none
 
-jvs:
-  config-path: ./jvs.yml
+jdvs:
+  config-path: ./jdvs.yml
   base-dir: ./javadoc-storage
   cron: 0 0/15 * * * ?
   run-on-start: false
