@@ -20,11 +20,6 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
-                  name: url
-                  type: VARCHAR(512)
-                  constraints:
-                    nullable: false
-              - column:
                   name: last_tag
                   type: VARCHAR(255)
               - column:

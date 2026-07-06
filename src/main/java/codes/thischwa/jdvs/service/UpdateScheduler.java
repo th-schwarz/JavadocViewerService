@@ -23,8 +23,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UpdateScheduler {
   private final GitRepositoryRepository repository;
-  private final GitService gitService;
-  private final JavadocService javadocService;
+  private final MavenSourceService mavenSourceService;
   private final JdvsConfig jdvsConfig;
   private final RepoConfigLoader repoConfigLoader;
 
@@ -66,19 +65,18 @@ public class UpdateScheduler {
 
   private void updateRepo(GitRepository repo) {
     log.info("Checking repository: {}", repo.getName());
-    Optional<String> latestTag = gitService.updateAndCheckoutLatestTag(repo);
-    if (latestTag.isPresent()) {
-      String tag = latestTag.get();
-      if (!tag.equals(repo.getLastTag())) {
-        log.info("New tag {} found for {}. Generating Javadoc...", tag, repo.getName());
-        File repoDir = gitService.getRepoDirectory(repo.getName());
-        if (javadocService.generateJavadoc(repo.getName(), repoDir)) {
-          repo.setLastTag(tag);
+    Optional<String> latestVersion = mavenSourceService.fetchLatestVersion(repo.getName());
+    if (latestVersion.isPresent()) {
+      String version = latestVersion.get();
+      if (!version.equals(repo.getLastTag())) {
+        log.info("New version {} found for {}. Generating Javadoc...", version, repo.getName());
+        if (mavenSourceService.generateJavadoc(repo.getName(), version)) {
+          repo.setLastTag(version);
           repo.setUpdated(LocalDateTime.now());
           repository.save(repo);
         }
       } else {
-        log.info("Repository {} is already up to date ({}).", repo.getName(), tag);
+        log.info("Repository {} is already up to date ({}).", repo.getName(), version);
       }
     }
   }

@@ -18,9 +18,6 @@ public class GitRepository {
   @Column(nullable = false, unique = true)
   private String name;
 
-  @Column(nullable = false)
-  private String url;
-
   private String lastTag;
 
   private LocalDateTime updated;

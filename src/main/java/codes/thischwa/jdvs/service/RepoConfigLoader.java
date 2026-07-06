@@ -20,7 +20,6 @@ public class RepoConfigLoader {
         if (repository.findByName(repoCfg.getName()).isEmpty()) {
           GitRepository repo = new GitRepository();
           repo.setName(repoCfg.getName());
-          repo.setUrl(repoCfg.getUrl());
           repository.save(repo);
           log.info("Repository {} added from configuration.", repoCfg.getName());
         }

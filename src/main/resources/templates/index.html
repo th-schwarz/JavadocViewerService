@@ -11,8 +11,7 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th>Git URL</th>
-            <th>Latest Tag</th>
+            <th>Latest Version</th>
             <th>Last Update</th>
             <th>Action</th>
         </tr>
@@ -20,8 +19,7 @@
         <tbody>
         <tr th:each="repo : ${repos}">
             <td th:text="${repo.name}">Project</td>
-            <td th:text="${repo.url}">URL</td>
-            <td th:text="${repo.lastTag}">v1.0</td>
+            <td th:text="${repo.lastTag}">-</td>
             <td th:text="${#temporals.format(repo.updated, 'dd.MM.yyyy HH:mm')}">-</td>
             <td>
                 <a th:if="${repo.lastTag != null}" th:href="@{/{name}/index.html(name=${repo.name})}" class="btn btn-primary btn-sm">Open Javadoc</a>
