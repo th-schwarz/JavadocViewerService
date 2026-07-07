@@ -5,6 +5,12 @@ jdvs:
   run-on-start: false
   maven-central-url: https://repo1.maven.org/maven2
 
+git:
+  javadoc-paths:
+    - target/reports/apidocs
+    - target/apidocs
+    - target/site/apidocs
+
 ## import of the individual configuration settings
 spring:
   config:

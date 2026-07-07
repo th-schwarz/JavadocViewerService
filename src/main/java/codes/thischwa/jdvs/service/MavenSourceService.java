@@ -1,5 +1,6 @@
 package codes.thischwa.jdvs.service;
 
+import codes.thischwa.jdvs.config.GitConfig;
 import codes.thischwa.jdvs.config.JdvsConfig;
 import codes.thischwa.jdvs.config.JdvsConfig.RepoConfig;
 import java.io.BufferedReader;
@@ -30,6 +31,7 @@ import org.xml.sax.InputSource;
 public class MavenSourceService {
 
   private final JdvsConfig jdvsConfig;
+  private final GitConfig gitConfig;
   private final RestClient restClient = RestClient.create();
 
   public Optional<String> fetchLatestVersion(String repoName) {
@@ -68,6 +70,7 @@ public class MavenSourceService {
     Path workDir = null;
     try {
       workDir = Files.createTempDirectory("jdvs-maven-" + repoName + "-");
+      log.info("Created temporary working directory {}", workDir);
       Path srcMainJava = workDir.resolve("src/main/java");
       Files.createDirectories(srcMainJava);
       downloadAndExtract(jarUrl, workDir, srcMainJava);
@@ -129,11 +132,16 @@ public class MavenSourceService {
     Path mavenLocalRepo = Path.of(jdvsConfig.getBaseDir(), "maven-repo").toAbsolutePath();
     Files.createDirectories(mavenLocalRepo);
 
+    // create empty sonar-project.properties so properties-maven-plugin doesn't fail
+    Files.createFile(workDir.resolve("sonar-project.properties"));
+
     List<String> cmd = new ArrayList<>(List.of(
         "mvn", "-U", "--no-transfer-progress",
         "clean", "javadoc:javadoc",
         "-Djacoco.skip=true",
         "-DskipTests",
+        "-Dsonar.skip=true",
+        "-Dmaven.javadoc.skip=false",
         "-Dcheckstyle.skip=true",
         "-Dlombok.delombok.skip=true",
         "-Dmaven.repo.local=" + mavenLocalRepo
@@ -159,9 +167,12 @@ public class MavenSourceService {
       return false;
     }
 
-    Path apidocsDir = workDir.resolve("target/reports/apidocs");
-    if (!Files.exists(apidocsDir)) {
-      // Log actual target content to find where Maven put the output
+    Path apidocsDir = gitConfig.getJavadocPaths().stream()
+        .map(workDir::resolve)
+        .filter(Files::exists)
+        .findFirst()
+        .orElse(null);
+    if (apidocsDir == null) {
       Path targetDir = workDir.resolve("target");
       if (Files.exists(targetDir)) {
         try (var s = Files.walk(targetDir, 4)) {
@@ -177,6 +188,7 @@ public class MavenSourceService {
       }
       return false;
     }
+    log.debug("Found apidocs directory at: {}", apidocsDir);
     copyDirectory(apidocsDir, outputDir);
     log.info("Javadoc successfully generated for {} in {}", repoName, outputDir);
     return true;
