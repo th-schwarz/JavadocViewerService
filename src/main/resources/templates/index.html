@@ -13,7 +13,7 @@
             <th>Name</th>
             <th>Latest Version</th>
             <th>Last Update</th>
-            <th>Action</th>
+            <th>Javadoc link</th>
         </tr>
         </thead>
         <tbody>
@@ -22,7 +22,9 @@
             <td th:text="${repo.lastTag}">-</td>
             <td th:text="${#temporals.format(repo.updated, 'dd.MM.yyyy HH:mm')}">-</td>
             <td>
-                <a th:if="${repo.lastTag != null}" th:href="@{/{name}/index.html(name=${repo.name})}" class="btn btn-primary btn-sm">Open Javadoc</a>
+                <a th:if="${repo.lastTag != null}" th:href="@{/{name}/index.html(name=${repo.name})}">
+                    <img th:src="@{/badge/{name}(name=${repo.name})}" alt="javadoc badge">
+                </a>
                 <span th:if="${repo.lastTag == null}" class="badge bg-secondary">Not yet generated</span>
             </td>
         </tr>
