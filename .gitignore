@@ -39,3 +39,4 @@ build/
 /database/
 /javadoc-storage/
 /jdvs.yml
+/.claude/
