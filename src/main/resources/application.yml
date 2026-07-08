@@ -1,6 +1,6 @@
 jdvs:
   base-dir: ./javadoc-storage
-  cron: 0 0/15 * * * ?
+  cron: 0 0/30 * * * ?
   clean-on-start: false
   run-on-start: false
   maven-central-url: https://repo1.maven.org/maven2

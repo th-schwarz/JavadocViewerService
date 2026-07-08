@@ -12,7 +12,7 @@ A Spring Boot web service that automatically fetches, manages, and serves Javado
 
 ## Requirements
 
-Currently, this service is docker-only.
+JRE-21 or docker
 
 ## Docker
 
@@ -44,13 +44,13 @@ Volume mapping:
 
 Key defaults:
 
-| Property | Default | Description |
-|---|---|---|
-| `jdvs.base-dir` | `./javadoc-storage` | Storage root for generated Javadoc |
-| `jdvs.cron` | `0 0/15 * * * ?` | Update schedule (every 15 min) |
-| `jdvs.clean-on-start` | `false` | Wipe storage and DB on startup |
-| `jdvs.run-on-start` | `false` | Run update immediately on startup |
-| `jdvs.maven-central-url` | `https://repo1.maven.org/maven2` | Default Maven repository |
+| Property | Default                          | Description                        |
+|---|----------------------------------|------------------------------------|
+| `jdvs.base-dir` | `./javadoc-storage`              | Storage root for generated Javadoc |
+| `jdvs.cron` | `0 0/30 * * * ?`                 | Update schedule (every 30 min)     |
+| `jdvs.clean-on-start` | `false`                          | Wipe storage and DB on startup     |
+| `jdvs.run-on-start` | `false`                          | Run update immediately on startup  |
+| `jdvs.maven-central-url` | `https://repo1.maven.org/maven2` | Default Maven repository           |
 
 ### `jdvs.yml`
 
