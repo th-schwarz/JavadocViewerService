@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UpdateScheduler {
   private final GitRepositoryRepository repository;
-  private final MavenSourceService mavenSourceService;
+  private final MavenJavadocService mavenJavadocService;
   private final JdvsConfig jdvsConfig;
   private final RepoConfigLoader repoConfigLoader;
 
@@ -65,12 +65,12 @@ public class UpdateScheduler {
 
   private void updateRepo(GitRepository repo) {
     log.info("Checking repository: {}", repo.getName());
-    Optional<String> latestVersion = mavenSourceService.fetchLatestVersion(repo.getName());
+    Optional<String> latestVersion = mavenJavadocService.fetchLatestVersion(repo.getName());
     if (latestVersion.isPresent()) {
       String version = latestVersion.get();
       if (!version.equals(repo.getLastTag())) {
         log.info("New version {} found for {}. Generating Javadoc...", version, repo.getName());
-        if (mavenSourceService.generateJavadoc(repo.getName(), version)) {
+        if (mavenJavadocService.generateJavadoc(repo.getName(), version)) {
           repo.setLastTag(version);
           repo.setUpdated(LocalDateTime.now());
           repository.save(repo);
