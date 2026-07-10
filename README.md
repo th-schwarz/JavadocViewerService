@@ -4,6 +4,9 @@
 
 This project Spring Boot web service that automatically fetches, manages, and serves Javadoc documentation for Maven artifacts.
 
+If you encounter any bugs or find missing features, feel free to report them on
+the [Gitea Issues page](https://github.com/th-schwarz/JavadocViewerService/issues).
+
 ## Features
 
 - Fetches Javadoc JARs from Maven Central or custom Maven repositories
