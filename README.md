@@ -14,7 +14,14 @@ A Spring Boot web service that automatically fetches, manages, and serves Javado
 
 JRE-21 or docker
 
-## Docker
+## Start
+### ... with Java
+
+```bash
+java -jar jdvc-<version>.jar --spring.config.import=file:./jdvs.yml
+```
+
+### .. with Docker
 
 ```yaml
 services:
