@@ -1,6 +1,8 @@
 # JavadocViewerService
 
-A Spring Boot web service that automatically fetches, manages, and serves Javadoc documentation for Maven artifacts.
+## Preface
+
+This project Spring Boot web service that automatically fetches, manages, and serves Javadoc documentation for Maven artifacts.
 
 ## Features
 
