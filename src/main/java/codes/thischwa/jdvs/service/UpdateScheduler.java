@@ -3,7 +3,6 @@ package codes.thischwa.jdvs.service;
 import codes.thischwa.jdvs.config.JdvsConfig;
 import codes.thischwa.jdvs.jpa.GitRepositoryRepository;
 import codes.thischwa.jdvs.model.GitRepository;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,10 +46,16 @@ public class UpdateScheduler {
       return;
     }
     try (var stream = Files.walk(baseDir)) {
-      stream.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+      stream.sorted(Comparator.reverseOrder()).forEach(path -> {
+        try {
+          Files.delete(path);
+        } catch (IOException e) {
+          log.warn("Failed to delete path: {}", path, e);
+        }
+      });
       log.info("Deleted base directory: {}", baseDir);
     } catch (IOException e) {
-      log.error("Failed to delete base directory: {}", baseDir, e);
+      log.error("Failed to walk base directory: {}", baseDir, e);
     }
   }
 

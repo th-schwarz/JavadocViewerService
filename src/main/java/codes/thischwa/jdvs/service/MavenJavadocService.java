@@ -2,6 +2,7 @@ package codes.thischwa.jdvs.service;
 
 import codes.thischwa.jdvs.config.JdvsConfig;
 import codes.thischwa.jdvs.config.JdvsConfig.RepoConfig;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
@@ -11,13 +12,16 @@ import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +29,7 @@ import org.xml.sax.InputSource;
 public class MavenJavadocService {
 
   private final JdvsConfig jdvsConfig;
-  private final RestClient restClient = RestClient.create();
+  private final RestClient restClient;
 
   public Optional<String> fetchLatestVersion(String repoName) {
     RepoConfig cfg = findConfig(repoName);
@@ -33,19 +37,16 @@ public class MavenJavadocService {
     log.info("Fetching Maven metadata from {}", metadataUrl);
     try {
       String xml = restClient.get().uri(metadataUrl).retrieve().body(String.class);
-      Document doc = DocumentBuilderFactory.newInstance()
-          .newDocumentBuilder()
-          .parse(new InputSource(new StringReader(xml)));
-      String version = firstText(doc, "release");
-      if (version == null) {
-        version = firstText(doc, "latest");
-      }
-      if (version != null) {
-        log.info("Latest version of {} is {}", repoName, version);
-        return Optional.of(version);
+      Document doc = parseXml(xml);
+      Optional<String> version = resolveVersionTag(doc);
+      if (version.isPresent()) {
+        log.info("Latest version of {} is {}", repoName, version.get());
+        return version;
       }
       log.warn("Could not determine latest version for {}", repoName);
-    } catch (Exception e) {
+    } catch (ParserConfigurationException | SAXException | IOException e) {
+      log.error("Failed to parse Maven metadata for {}", repoName, e);
+    } catch (RestClientException e) {
       log.error("Failed to fetch Maven metadata for {}", repoName, e);
     }
     return Optional.empty();
@@ -66,7 +67,7 @@ public class MavenJavadocService {
       extractJavadocJar(jarUrl, outputDir);
       log.info("Javadoc successfully extracted for {} to {}", repoName, outputDir);
       return true;
-    } catch (Exception e) {
+    } catch (IOException | RestClientException e) {
       log.error("Failed to generate Javadoc for {} version {}", repoName, version, e);
       return false;
     }
@@ -78,7 +79,7 @@ public class MavenJavadocService {
       throw new IOException("Empty response for " + jarUrl);
     }
     Path safeOutputDir = outputDir.toAbsolutePath().normalize();
-    try (ZipInputStream zip = new ZipInputStream(new java.io.ByteArrayInputStream(jarBytes))) {
+    try (ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(jarBytes))) {
       ZipEntry entry;
       while ((entry = zip.getNextEntry()) != null) {
         String name = entry.getName();
@@ -100,33 +101,31 @@ public class MavenJavadocService {
     log.info("Resolving SNAPSHOT version from {}", metadataUrl);
     try {
       String xml = restClient.get().uri(metadataUrl).retrieve().body(String.class);
-      Document doc = DocumentBuilderFactory.newInstance()
-          .newDocumentBuilder()
-          .parse(new InputSource(new StringReader(xml)));
+      Document doc = parseXml(xml);
       NodeList nodes = doc.getElementsByTagName("snapshotVersion");
       for (int i = 0; i < nodes.getLength(); i++) {
         org.w3c.dom.Element el = (org.w3c.dom.Element) nodes.item(i);
-        String classifier = firstText(el, "classifier");
-        String ext = firstText(el, "extension");
-        String value = firstText(el, "value");
+        String classifier = firstText(el.getElementsByTagName("classifier"));
+        String ext = firstText(el.getElementsByTagName("extension"));
+        String value = firstText(el.getElementsByTagName("value"));
         if ("javadoc".equals(classifier) && "jar".equals(ext) && value != null) {
           log.info("Resolved SNAPSHOT version to {}", value);
           return value;
         }
       }
-    } catch (Exception e) {
-      log.warn("Could not resolve SNAPSHOT version for {}, falling back to {}",
+    } catch (ParserConfigurationException | SAXException | IOException e) {
+      log.warn("Could not parse SNAPSHOT metadata for {}, falling back to {}",
+          cfg.getArtifactId(), version, e);
+    } catch (RestClientException e) {
+      log.warn("Could not fetch SNAPSHOT metadata for {}, falling back to {}",
           cfg.getArtifactId(), version, e);
     }
     return version;
   }
 
   private String baseUrl(RepoConfig cfg) {
-    String repoUrl = cfg.getMavenRepoUrl() != null
-        ? cfg.getMavenRepoUrl()
-        : jdvsConfig.getMavenCentralUrl();
     String groupPath = cfg.getGroupId().replace('.', '/');
-    return repoUrl + "/" + groupPath + "/" + cfg.getArtifactId();
+    return jdvsConfig.getEffectiveMavenRepoUrl(cfg) + "/" + groupPath + "/" + cfg.getArtifactId();
   }
 
   private RepoConfig findConfig(String repoName) {
@@ -136,13 +135,19 @@ public class MavenJavadocService {
         .orElseThrow(() -> new IllegalArgumentException("No config found for: " + repoName));
   }
 
-  private String firstText(Document doc, String tagName) {
-    NodeList nodes = doc.getElementsByTagName(tagName);
+  private static Optional<String> resolveVersionTag(Document doc) {
+    return Optional.ofNullable(firstText(doc.getElementsByTagName("release")))
+        .or(() -> Optional.ofNullable(firstText(doc.getElementsByTagName("latest"))));
+  }
+
+  private static String firstText(NodeList nodes) {
     return nodes.getLength() > 0 ? nodes.item(0).getTextContent() : null;
   }
 
-  private String firstText(org.w3c.dom.Element parent, String tagName) {
-    NodeList nodes = parent.getElementsByTagName(tagName);
-    return nodes.getLength() > 0 ? nodes.item(0).getTextContent() : null;
+  private static Document parseXml(String xml)
+      throws ParserConfigurationException, SAXException, IOException {
+    return DocumentBuilderFactory.newInstance()
+        .newDocumentBuilder()
+        .parse(new InputSource(new StringReader(xml)));
   }
 }

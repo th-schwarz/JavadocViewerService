@@ -17,6 +17,10 @@ public class JdvsConfig {
   private String mavenCentralUrl;
   private List<RepoConfig> repositories;
 
+  public String getEffectiveMavenRepoUrl(RepoConfig cfg) {
+    return Objects.requireNonNullElse(cfg.getMavenRepoUrl(), mavenCentralUrl);
+  }
+
   @Data
   public static class RepoConfig {
     private String name;
