@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Compute image name and tag
-        id: metai
+        id: compute-tag
         run: |
           REGISTRY=$(echo "${{ github.server_url }}" | sed 's|https\?://||')
           OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
@@ -64,4 +64,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.metai.outputs.image }}:${{ steps.metai.outputs.tag }}
+          tags: ${{ steps.compute-tag.outputs.image }}:${{ steps.compute-tag.outputs.tag }}
