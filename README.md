@@ -19,6 +19,9 @@ the [GitHub Issues page](https://github.com/th-schwarz/JavadocViewerService/issu
 At least JRE-21 or docker
 
 ## Start
+
+Packages can be found at [Gitea Packages](https://git.mein-gateway.de/thischwa/JavadocViewerService/packages).
+
 ### ... with Java
 
 ```bash
