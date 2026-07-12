@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Compute image name and tag
+        id: metai
         run: |
           REGISTRY=$(echo "${{ github.server_url }}" | sed 's|https\?://||')
           OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
