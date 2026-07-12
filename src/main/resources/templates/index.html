@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Javadoc Viewer Service</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Project Javadoc Overview</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Latest Version</th>
+            <th>Last Update</th>
+            <th>Javadoc link</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="repo : ${repos}">
+            <td th:text="${repo.name}">Project</td>
+            <td th:text="${repo.lastTag}">-</td>
+            <td th:text="${#temporals.format(repo.updated, 'dd.MM.yyyy HH:mm')}">-</td>
+            <td>
+                <a th:if="${repo.lastTag != null}" th:href="@{/{name}/index.html(name=${repo.name})}">
+                    <img th:src="@{/badge/{name}(name=${repo.name})}" alt="javadoc badge">
+                </a>
+                <span th:if="${repo.lastTag == null}" class="badge bg-secondary">Not yet generated</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

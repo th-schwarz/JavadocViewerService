@@ -1,0 +1,27 @@
+jdvs:
+  base-dir: ./javadoc-storage
+  cron: 0 0/30 * * * ?
+  clean-on-start: false
+  run-on-start: false
+  maven-central-url: https://repo1.maven.org/maven2
+
+git:
+  javadoc-paths:
+    - target/reports/apidocs
+    - target/apidocs
+    - target/site/apidocs
+
+## import of the individual configuration settings
+spring:
+  config:
+    import: optional:file:./jdvs.yml
+
+  datasource:
+    url: jdbc:h2:file:./database/jdvsdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none

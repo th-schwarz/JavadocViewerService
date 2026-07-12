@@ -1,0 +1,11 @@
+
+   ___     _ _   _ _____
+  |_  |   | | | | /  ___|
+    | | __| | | | \ `--.
+    | |/ _` | | | |`--. \
+/\__/ / (_| \ \_/ /\__/ /
+\____/ \__,_|\___/\____/
+
+Version: ${application.version}
+:: Spring Boot${spring-boot.formatted-version} ::
+running on java ${java.version}

@@ -1,0 +1,73 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - develop
+      - 'feature/*'
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compute image name and tag
+        id: compute-tag
+        run: |
+          REGISTRY=$(echo "${{ github.server_url }}" | sed 's|https\?://||')
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          ACTOR=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME="javadocviewerservice"
+          FULL_IMAGE="${REGISTRY}/${OWNER}/${IMAGE_NAME}"
+
+          REF="${{ github.ref_name }}"
+          if [[ "${REF}" == v* ]]; then
+            TAG="${REF#v}"
+            TAGS="${FULL_IMAGE}:${TAG},${FULL_IMAGE}:latest"
+          else
+            TAG=$(echo "${REF}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9._-]/-/g')
+            TAGS="${FULL_IMAGE}:${TAG}"
+          fi
+
+          echo "Registry:  ${REGISTRY}"
+          echo "Actor:     ${ACTOR}"
+          echo "Tags:      ${TAGS}"
+
+          echo "registry=${REGISTRY}" >> "$GITHUB_OUTPUT"
+          echo "actor=${ACTOR}" >> "$GITHUB_OUTPUT"
+          echo "image=${FULL_IMAGE}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
+
+      - name: Network Debug
+        run: |
+          curl -v https://git.mein-gateway.de/v2/    
+
+      - name: Debug Secret
+        run: |
+         echo "Secret length: ${#TOKEN}"
+        env:
+          TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+
+      - name: Log in to Gitea Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: git.mein-gateway.de
+          username: thischwa
+          password: ${{ secrets.REGISTRY_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.compute-tag.outputs.tags }}
