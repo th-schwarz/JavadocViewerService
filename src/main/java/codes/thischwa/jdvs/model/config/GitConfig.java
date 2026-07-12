@@ -1,4 +1,4 @@
-package codes.thischwa.jdvs.config;
+package codes.thischwa.jdvs.model.config;
 
 import java.util.List;
 import lombok.Data;

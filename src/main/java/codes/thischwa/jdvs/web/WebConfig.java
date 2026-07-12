@@ -1,6 +1,6 @@
 package codes.thischwa.jdvs.web;
 
-import codes.thischwa.jdvs.config.JdvsConfig;
+import codes.thischwa.jdvs.model.config.JdvsConfig;
 import java.nio.file.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

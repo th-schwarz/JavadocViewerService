@@ -1,4 +1,4 @@
-package codes.thischwa.jdvs.config;
+package codes.thischwa.jdvs.model.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

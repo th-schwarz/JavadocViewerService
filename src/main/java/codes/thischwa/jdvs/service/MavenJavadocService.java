@@ -1,7 +1,7 @@
 package codes.thischwa.jdvs.service;
 
-import codes.thischwa.jdvs.config.JdvsConfig;
-import codes.thischwa.jdvs.config.JdvsConfig.RepoConfig;
+import codes.thischwa.jdvs.model.config.JdvsConfig;
+import codes.thischwa.jdvs.model.config.JdvsConfig.RepoConfig;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;

@@ -5,19 +5,18 @@
 This project Spring Boot web service that automatically fetches, manages, and serves Javadoc documentation for Maven artifacts.
 
 If you encounter any bugs or find missing features, feel free to report them on
-the [Github Issues page](https://github.com/th-schwarz/JavadocViewerService/issues).
+the [GitHub Issues page](https://github.com/th-schwarz/JavadocViewerService/issues).
 
 ## Features
 
-- Fetches Javadoc JARs from Maven Central or custom Maven repositories
-- Tracks multiple Maven artifacts with version detection
-- Serves generated Javadoc via a simple Bootstrap web UI
-- Scheduled updates via configurable cron expression
-- Persists metadata in an embedded H2 database (Liquibase-managed)
+- Retrieves Javadoc JARs from Maven Central or custom Maven repositories
+- Tracks multiple Maven artefacts with version detection (only the latest version is taken into account).
+- Delivers generated Javadoc content via a simple bootstrap web interface
+- Scheduled updates via a configurable cron expression
 
 ## Requirements
 
-JRE-21 or docker
+At least JRE-21 or docker
 
 ## Start
 ### ... with Java

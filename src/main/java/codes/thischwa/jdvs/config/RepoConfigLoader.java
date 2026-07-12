@@ -1,6 +1,6 @@
-package codes.thischwa.jdvs.service;
+package codes.thischwa.jdvs.config;
 
-import codes.thischwa.jdvs.config.JdvsConfig;
+import codes.thischwa.jdvs.model.config.JdvsConfig;
 import codes.thischwa.jdvs.jpa.GitRepositoryRepository;
 import codes.thischwa.jdvs.model.GitRepository;
 import lombok.RequiredArgsConstructor;
