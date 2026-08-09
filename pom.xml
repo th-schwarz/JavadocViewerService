@@ -4,7 +4,7 @@
 
     <groupId>codes.thischwa</groupId>
     <artifactId>jdvc</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
 
     <name>JavadocViewerService</name>
 
@@ -33,7 +33,7 @@
         <developerConnection>scm:git:https://git.mein-gateway.de/thischwa/JavadocViewerService.git</developerConnection>
         <connection>scm:git:https://git.mein-gateway.de/thischwa/JavadocViewerService.git</connection>
         <url>https://git.mein-gateway.de/thischwa/JavadocViewerService</url>
-        <tag>HEAD</tag>
+        <tag>v0.2.0</tag>
     </scm>
 
     <distributionManagement>
