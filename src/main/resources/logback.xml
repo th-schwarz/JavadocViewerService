@@ -12,6 +12,7 @@
     <logger name="org.springframework.boot.autoconfigure.logging" level="info"/>
     <logger name="org.springframework.context" level="info"/>
     <logger name="org.eclipse.jgit" level="info"/>
+    <logger name="org.hibernate" level="info"/>
     <logger name="com.zaxxer.hikari" level="info"/>
 
     <root level="debug">
