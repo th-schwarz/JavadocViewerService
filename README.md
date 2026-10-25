@@ -33,12 +33,12 @@ java -jar jdvc-<version>.jar --spring.config.import=file:./jdvs.yml
 
 ```yaml
 services:
-  jvs-dockerized:
-    image: git.mein-gateway.de/thischwa/javadocviewerservice:develop
+  javadocviewerservice:
+    image: git.mein-gateway.de/thischwa/javadocviewerservice:latest
     volumes:
-      - /opt/javadocviewerservice-dockerized/jdvs.yml:/app/jdvs.yml:ro
-      - /opt/javadocviewerservice-dockerized/database:/app/database
-      - /opt/javadocviewerservice-dockerized/javadoc-storage:/app/javadoc-storage
+      - /opt/javadocviewerservice/jdvs.yml:/app/jdvs.yml:ro
+      - /opt/javadocviewerservice/database:/app/database
+      - /opt/javadocviewerservice/javadoc-storage:/app/javadoc-storage
     restart: unless-stopped
     ports:
       - "127.0.0.1:8086:8080"
