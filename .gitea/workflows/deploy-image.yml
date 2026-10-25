@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: git.mein-gateway.de
+  REGISTRY: ${{ vars.REGISTRY }}
 
 jobs:
   build-and-push:
